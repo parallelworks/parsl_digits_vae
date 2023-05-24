@@ -14,7 +14,7 @@
         name='gpu_load_pytorch' 
         label='Load Pytorch Command' 
         type='text' 
-        value='source /home/alvaro/miniconda3/etc/profile.d/conda.sh; conda activate base' 
+        value='source /home/alvaro/miniconda3/etc/profile.d/conda.sh; conda activate pytorch' 
         width='50%'>
       </param>
     </section>
@@ -31,7 +31,7 @@
         name='cpu_load_pytorch' 
         label='Load Pytorch Command' 
         type='text' 
-        value='source /home/alvaro/miniconda3/etc/profile.d/conda.sh; conda activate base' 
+        value='source /home/alvaro/miniconda3/etc/profile.d/conda.sh; conda activate pytorch' 
         width='50%'>
       </param>
     </section>
