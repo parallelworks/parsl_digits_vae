@@ -32,8 +32,8 @@ if __name__ == '__main__':
         args['gpu_load_pytorch'],
         inputs = [
             PWFile(
-                url = './pytorch',
-                local_path = './pytorch'
+                url = './pytorch/',
+                local_path = './pytorch/'
             ),
             PWFile(
                 url = pytorch_inputs_json,
@@ -52,8 +52,8 @@ if __name__ == '__main__':
         args['cpu_load_pytorch'],
         inputs = [
             PWFile(
-                url = './pytorch',
-                local_path = './pytorch'
+                url = './pytorch/',
+                local_path = './pytorch/'
             ),
             PWFile(
                 url = pytorch_inputs_json,
