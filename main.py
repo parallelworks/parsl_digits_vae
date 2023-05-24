@@ -39,7 +39,7 @@ def prepare_design_explorer():
     </iframe>
 </html>
 '''
-    with open("design_explorer.csv", "w") as f:
+    with open("design_explorer.html", "w") as f:
         f.write(html_file)
 
 
