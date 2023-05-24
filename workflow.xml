@@ -23,7 +23,7 @@
         name='cpu_resource_name' 
         label='Resource Name' 
         type='text' 
-        value='awsv2'
+        value='koehr'
         help='Name of the PW resource to run the app' 
         width='50%'>
       </param>
