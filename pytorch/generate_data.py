@@ -54,7 +54,7 @@ def generate_digits(vae, latent_size, num_digits=10, data_dir='./'):
     df['img:digit'] = image_paths
 
     # Save the DataFrame as a CSV file
-    csv_path = os.path.join(data_dir, 'encoded_digits.csv')
+    csv_path = os.path.join(data_dir, 'design_explorer.csv')
     df.to_csv(csv_path, index=False)
     print(encoded_digits)
 
