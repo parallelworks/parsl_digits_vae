@@ -1,0 +1,81 @@
+<tool id='alvaro_singlecluster_parsl_demo' name='alvaro_singlecluster_parsl_demo'>
+  <command interpreter='bash'>parsl_wrapper.sh</command>
+  <inputs>
+    <section name='gpu_executor' type='section' title='GPU Executor' expanded='true'>
+      <param 
+        name='gpu_resource_name' 
+        label='Resource Name' 
+        type='text' 
+        value='awsv2'
+        help='Name of the PW resource to run the app' 
+        width='50%'>
+      </param>
+      <param 
+        name='gpu_load_pytorch' 
+        label='Load Pytorch Command' 
+        type='text' 
+        value='source /home/alvaro/miniconda3/etc/profile.d/conda.sh; conda activate base' 
+        width='50%'>
+      </param>
+    </section>
+    <section name='cpu_executor' type='section' title='CPU Executor' expanded='true'>
+      <param 
+        name='cpu_resource_name' 
+        label='Resource Name' 
+        type='text' 
+        value='awsv2'
+        help='Name of the PW resource to run the app' 
+        width='50%'>
+      </param>
+      <param 
+        name='cpu_load_pytorch' 
+        label='Load Pytorch Command' 
+        type='text' 
+        value='source /home/alvaro/miniconda3/etc/profile.d/conda.sh; conda activate base' 
+        width='50%'>
+      </param>
+    </section>
+    <section name='train' type='section' title='Train' expanded='true'>
+      <param 
+        name='latent_size' 
+        label='Latent Size' 
+        type='integer' 
+        min='1' 
+        max='10' 
+        help='Latent dimension of the encoded space' 
+        value='1' 
+        width='50%'>
+      </param>
+      <param 
+        name='num_epochs' 
+        label='Number of Epochs' 
+        type='integer' 
+        min='1' 
+        max='1000' 
+        value='10'
+        width='50%'>
+      </param>
+      <param 
+        name='learning_rate' 
+        label='Learning Rate' 
+        type='text' 
+        value='0.001' 
+        width='50%'>
+      </param>
+    </section>
+    <section name='generate' type='section' title='Generate Digits' expanded='true'>
+      <param 
+        name='num_digits' 
+        label='Number of Digits' 
+        type='integer' 
+        min='2' 
+        max='1000' 
+        help='Number of digits to generate' 
+        value='10' 
+        width='50%'>
+      </param>
+    </section>
+  </inputs>
+  <outputs>
+  </outputs>
+</tool>
