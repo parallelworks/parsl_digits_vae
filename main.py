@@ -58,7 +58,8 @@ if __name__ == '__main__':
             PWFile(
                 url = pytorch_inputs_json,
                 local_path = pytorch_inputs_json
-            )
+            ),
+            train_fut
         ],
         outputs = [
             PWFile(
@@ -67,4 +68,6 @@ if __name__ == '__main__':
             )
         ],
     )
+
+    generate_data_fut.result()
 
