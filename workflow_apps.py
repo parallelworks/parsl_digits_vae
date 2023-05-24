@@ -14,8 +14,8 @@ def train(load_pytorch: str, inputs: list = None, outputs: list = None,
     {load_pytorch}
     python {pytorch_dir}/train.py {pytorch_inputs_json}
     '''.format(
-        load_pytorch = load_pytorch,
-        pytorch_dir = inputs[0].local_path
+        load_pytorch = load_pytorch.replace('___',' '),
+        pytorch_dir = inputs[0].local_path,
         pytorch_inputs_json = inputs[1].local_path
     )
 
@@ -31,7 +31,7 @@ def generate_data(load_pytorch: str, inputs: list = None, outputs: list = None,
     {load_pytorch}
     python {pytorch_dir}/generate_data.py {pytorch_inputs_json}
     '''.format(
-        load_pytorch = load_pytorch,
-        pytorch_dir = inputs[0].local_path
+        load_pytorch = load_pytorch.replace('___',' '),
+        pytorch_dir = inputs[0].local_path,
         pytorch_inputs_json = inputs[1].local_path
     )
