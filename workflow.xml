@@ -43,7 +43,7 @@
         min='1' 
         max='10' 
         help='Latent dimension of the encoded space' 
-        value='1' 
+        value='2' 
         width='50%'>
       </param>
       <param 
