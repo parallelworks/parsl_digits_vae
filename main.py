@@ -57,50 +57,43 @@ if __name__ == '__main__':
         "gen_data_dir": './generated_data/'
     }
     
-    pytorch_inputs_json = "./pytorch_inputs.json" 
-    with open(pytorch_inputs_json, 'w') as file:
+    # Transfer files
+    model_file = PWFile(
+        url = pytorch_inputs['model_path'],
+        local_path = pytorch_inputs['model_path']
+    )
+
+    pytorch_dir = PWFile(
+        url = './pytorch/',
+        local_path = './pytorch/'
+    )
+
+    pytorch_inputs_json = PWFile(
+        url = "./pytorch_inputs.json",
+        local_path = "./pytorch_inputs.json"
+    )
+    
+    with open(pytorch_inputs_json.local_path, 'w') as file:
         json.dump(pytorch_inputs, file, indent=4)
 
+    generated_data = PWFile(
+        url = pytorch_inputs['gen_data_dir'],
+        local_path = pytorch_inputs['gen_data_dir']
+    )
+
+    # Run workflow:
     print('\n\nTraining model', flush = True)
     train_fut = train(
         args['gpu_load_pytorch'],
-        inputs = [
-            PWFile(
-                url = './pytorch/',
-                local_path = './pytorch/'
-            ),
-            PWFile(
-                url = pytorch_inputs_json,
-                local_path = pytorch_inputs_json
-            )
-        ],
-        outputs = [
-            PWFile(
-                url = pytorch_inputs['model_path'],
-                local_path = pytorch_inputs['model_path']
-            )
-        ],
+        inputs = [ pytorch_dir, pytorch_inputs_json ],
+        outputs = [ model_file ]
     )
-    
+
+    print('\n\nGenerating data', flush = True)
     generate_data_fut = generate_data(
         args['cpu_load_pytorch'],
-        inputs = [
-            PWFile(
-                url = './pytorch/',
-                local_path = './pytorch/'
-            ),
-            PWFile(
-                url = pytorch_inputs_json,
-                local_path = pytorch_inputs_json
-            ),
-            train_fut
-        ],
-        outputs = [
-            PWFile(
-                url = pytorch_inputs['gen_data_dir'],
-                local_path = pytorch_inputs['gen_data_dir']
-            )
-        ],
+        inputs = [ pytorch_dir, pytorch_inputs_json, model_file, train_fut],
+        outputs = [ generated_data ]
     )
 
     generate_data_fut.result()
