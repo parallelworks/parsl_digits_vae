@@ -60,7 +60,7 @@ def generate_digits(vae, latent_size, num_digits=10, data_dir='./'):
 
 # Load the VAE model
 def load_model(vae, model_path):
-    vae.load_state_dict(torch.load(model_path))
+    vae.load_state_dict(torch.load(model_path, map_location=torch.device('cuda' if torch.cuda.is_available() else 'cpu')))
     vae.eval()
     print(f"Model loaded from {model_path}")
 
