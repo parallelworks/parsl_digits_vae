@@ -17,6 +17,25 @@
         value='source /contrib/__PW_USER__/pw/miniconda3/etc/profile.d/conda.sh; conda activate pytorch-gpu' 
         width='50%'>
       </param>
+       <conditional name="gpu_executor_cond">
+          <param name='gpu_jobschedulertype' type='select' label='Select Controller, SLURM Partition or PBS Queue' help='Job will submitted using SSH, sbatch or qsub, respectively' width='50%_none' multiple='false'>
+            <option value="CONTROLLER" selected="true">Controller</option>
+            <option value="SLURM">SLURM Partition</option>
+            <option value="PBS">PBS Queue</option>
+        </param>
+        <when value="SLURM">
+            <param name='gpu_sch__dd_partition_e_' label='SLURM partition' type='text' help='Partition to submit the interactive job. Leave empty to let SLURM pick the optimal option.' value='' width='50%_none'>
+            </param>
+            <param name='gpu_scheduler_directives' label='Scheduler directives' type='text' help='e.g. --mem=1000;--gpus-per-node=1 - Use the semicolon character ; to separate parameters. Do not include the SBATCH keyword.' value='--time=00:20:00;--nodes=1;--exclusive' width='100%_none'>
+            </param>
+        </when>
+        <when value="PBS">
+            <param name='gpu_sch__d_q___' label='PBS queue' type='text' help='Queue to submit the interactive job. Must select one! Use [qstat -f -Q] to list all queues on the system' value='' width='50%_none'>
+            </param>
+            <param name='gpu_scheduler_directives' label='Scheduler directives' type='text' help='e.g. -l mem=1000;-l nodes=1:ppn=4 - Use the semicolon character ; to separate parameters. Do not include the PBS keyword.' value='-l walltime=00:20:00;-l nodes=1;-l naccesspolicy=SINGLEJOB -n' width='100%_none'>
+            </param>
+        </when>
+      </conditional>
     </section>
     <section name='cpu_executor' type='section' title='CPU Executor' expanded='true'>
       <param 
@@ -34,6 +53,25 @@
         value='source /p/home/avidalto/miniconda3/etc/profile.d/conda.sh; conda activate pytorch-cpu' 
         width='50%'>
       </param>
+      <conditional name="cpu_executor_cond">
+          <param name='cpu_jobschedulertype' type='select' label='Select Controller, SLURM Partition or PBS Queue' help='Job will submitted using SSH, sbatch or qsub, respectively' width='50%_none' multiple='false'>
+            <option value="CONTROLLER" selected="true">Controller</option>
+            <option value="SLURM">SLURM Partition</option>
+            <option value="PBS">PBS Queue</option>
+        </param>
+        <when value="SLURM">
+            <param name='cpu_sch__dd_partition_e_' label='SLURM partition' type='text' help='Partition to submit the interactive job. Leave empty to let SLURM pick the optimal option.' value='' width='50%_none'>
+            </param>
+            <param name='cpu_scheduler_directives' label='Scheduler directives' type='text' help='e.g. --mem=1000;--gpus-per-node=1 - Use the semicolon character ; to separate parameters. Do not include the SBATCH keyword.' value='--time=00:20:00;--nodes=1;--exclusive' width='100%_none'>
+            </param>
+        </when>
+        <when value="PBS">
+            <param name='cpu_sch__d_q___' label='PBS queue' type='text' help='Queue to submit the interactive job. Must select one! Use [qstat -f -Q] to list all queues on the system' value='' width='50%_none'>
+            </param>
+            <param name='cpu_scheduler_directives' label='Scheduler directives' type='text' help='e.g. -l mem=1000;-l nodes=1:ppn=4 - Use the semicolon character ; to separate parameters. Do not include the PBS keyword.' value='-l walltime=00:20:00;-l nodes=1;-l naccesspolicy=SINGLEJOB -n' width='100%_none'>
+            </param>
+        </when>
+      </conditional>
     </section>
     <section name='train' type='section' title='Train' expanded='true'>
       <param 
