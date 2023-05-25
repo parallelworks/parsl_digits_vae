@@ -60,15 +60,15 @@
             <option value="PBS">PBS Queue</option>
         </param>
         <when value="SLURM">
-            <param name='cpu_sch__dd_partition_e_' label='SLURM partition' type='text' help='Partition to submit the interactive job. Leave empty to let SLURM pick the optimal option.' value='' width='50%_none'>
+            <param name='cpu_sch__dd_partition_e_' label='SLURM partition' type='text' help='Partition to submit the interactive job. Leave empty to let SLURM pick the optimal option.' value='gpu' width='50%_none'>
             </param>
             <param name='cpu_scheduler_directives' label='Scheduler directives' type='text' help='e.g. --mem=1000;--gpus-per-node=1 - Use the semicolon character ; to separate parameters. Do not include the SBATCH keyword.' value='--time=00:20:00;--nodes=1;--exclusive' width='100%_none'>
             </param>
         </when>
         <when value="PBS">
-            <param name='cpu_sch__d_q___' label='PBS queue' type='text' help='Queue to submit the interactive job. Must select one! Use [qstat -f -Q] to list all queues on the system' value='' width='50%_none'>
+            <param name='cpu_sch__d_q___' label='PBS queue' type='text' help='Queue to submit the interactive job. Must select one! Use [qstat -f -Q] to list all queues on the system' value='debug' width='50%_none'>
             </param>
-            <param name='cpu_scheduler_directives' label='Scheduler directives' type='text' help='e.g. -l mem=1000;-l nodes=1:ppn=4 - Use the semicolon character ; to separate parameters. Do not include the PBS keyword.' value='-l walltime=00:20:00;-l nodes=1;-l naccesspolicy=SINGLEJOB -n' width='100%_none'>
+            <param name='cpu_scheduler_directives' label='Scheduler directives' type='text' help='e.g. -l mem=1000;-l nodes=1:ppn=4 - Use the semicolon character ; to separate parameters. Do not include the PBS keyword.' value='-l walltime=00:20:00;-q debug;-l select=1:ncpus=44:mpiprocs=44;-A HPCMO49636PRW' width='100%_none'>
             </param>
         </when>
       </conditional>
