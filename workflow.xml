@@ -7,7 +7,7 @@
         label='Resource Name' 
         type='text' 
         value='awsv2'
-        help='Name of the PW resource to run the app' 
+        help='Name of the PW resource to train the CVAE model' 
         width='50%'>
       </param>
       <param 
@@ -43,7 +43,7 @@
         label='Resource Name' 
         type='text' 
         value='koehr'
-        help='Name of the PW resource to run the app' 
+        help='Name of the PW resource to generate synthetic data' 
         width='50%'>
       </param>
       <param 
