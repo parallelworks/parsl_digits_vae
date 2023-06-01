@@ -52,7 +52,7 @@
         label='Load PyTorch Command' 
         type='text' 
         help='Command to load PyTorch using conda activate, module load, etc' 
-        value='source /p/home/avidalto/miniconda3/etc/profile.d/conda.sh; conda activate pytorch-cpu' 
+        value='source /p/home/__PW_USER__/miniconda3/etc/profile.d/conda.sh; conda activate pytorch-cpu' 
         width='50%'>
       </param>
       <conditional name="cpu_executor_cond">
