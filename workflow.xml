@@ -15,7 +15,7 @@
         label='Load PyTorch Command' 
         type='text' 
         help='Command to load PyTorch using conda activate, module load, etc' 
-        value='source /contrib/__PW_USER__/pw/miniconda3/etc/profile.d/conda.sh; conda activate pytorch-gpu' 
+        value='source /contrib/miniconda/etc/profile.d/conda.sh; conda activate pytorch-gpu' 
         width='50%'>
       </param>
        <conditional name="gpu_executor_cond">
