@@ -1,0 +1,70 @@
+{
+    "train": {
+      "LOAD_PYTORCH": "source /contrib/miniconda/etc/profile.d/conda.sh; conda activate pytorch-gpu",
+      "POOL": "awsv2",
+      "REQUIRED": "true",
+      "CONDA_ENV": "parsl-1.2",
+      "CONDA_DIR": "/contrib/__USER__/pw/miniconda3",
+      "INSTALL_CONDA": "false",
+      "LOCAL_CONDA_YAML": "./requirements/conda_env_remote.yaml",
+      "SlurmProvider": {
+        "partition": "gpu",
+        "nodes_per_block": 1,
+        "min_blocks": 0,
+        "max_blocks": 10,
+        "walltime": "01:00:00"
+      }
+    },
+    "train-burst": {
+      "LOAD_PYTORCH": "source /contrib/miniconda/etc/profile.d/conda.sh; conda activate pytorch-gpu",
+      "POOL": "awsv2",
+      "REQUIRED": "true",
+      "CONDA_ENV": "parsl-1.2",
+      "CONDA_DIR": "/contrib/__USER__/pw/miniconda3",
+      "INSTALL_CONDA": "false",
+      "LOCAL_CONDA_YAML": "./requirements/conda_env_remote.yaml",
+      "SlurmProvider": {
+        "partition": "cpu",
+        "nodes_per_block": 1,
+        "min_blocks": 0,
+        "max_blocks": 10,
+        "walltime": "01:00:00"
+      }
+    },
+    "inference": {
+      "LOAD_PYTORCH": "source /p/home/__USER__/miniconda3/etc/profile.d/conda.sh; conda activate pytorch-cpu",
+      "POOL": "koehr",
+      "GSSAPI_AUTH": "true",
+      "CONDA_ENV": "parsl-1.2",
+      "CONDA_DIR": "__POOLWORKDIR__/pw/miniconda",
+      "CORES_PER_WORKER": 96,
+      "INSTALL_CONDA": "false",
+      "STAGE_PARSL_UTILS": "true",
+      "LOCAL_CONDA_YAML": "./requirements/conda_env_remote.yaml",
+      "PBSProProvider": {
+        "queue": "debug",
+        "account": "HPCMO49636PRW",
+        "scheduler_options": "#PBS -A HPCMO49636PRW\n#PBS -q debug\ncd __RUN_DIR__",
+        "nodes_per_block": 1,
+        "min_blocks": 0,
+        "max_blocks": 10,
+        "walltime": "00:10:00"
+      }
+    },
+    "inference-burst": {
+      "LOAD_PYTORCH": "source /contrib/miniconda/etc/profile.d/conda.sh; conda activate pytorch-gpu",
+      "POOL": "awsv2",
+      "REQUIRED": "true",
+      "CONDA_ENV": "parsl-1.2",
+      "CONDA_DIR": "/contrib/__USER__/pw/miniconda3",
+      "INSTALL_CONDA": "false",
+      "LOCAL_CONDA_YAML": "./requirements/conda_env_remote.yaml",
+      "SlurmProvider": {
+        "partition": "gpu",
+        "nodes_per_block": 1,
+        "min_blocks": 0,
+        "max_blocks": 10,
+        "walltime": "01:00:00"
+      }
+    }
+  }

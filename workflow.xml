@@ -1,15 +1,9 @@
 <tool id='alvaro_singlecluster_parsl_demo' name='alvaro_singlecluster_parsl_demo'>
   <command interpreter='bash'>parsl_wrapper.sh</command>
   <inputs>
+    <param name='parsl_retries' label='Number of retries' type='integer' min='2' max='200' help='Number of times that the apps are resubmitted' value='3' width='25%'>
+    </param>
     <section name='train' type='section' title='Train' expanded='true'>
-      <param 
-        name='train_load_pytorch' 
-        label='Load PyTorch Command' 
-        type='text' 
-        help='Command to load PyTorch using conda activate, module load, etc' 
-        value='source /contrib/miniconda/etc/profile.d/conda.sh; conda activate pytorch-gpu' 
-        width='50%'>
-      </param>
       <param 
         name='latent_size' 
         label='Latent Size' 
@@ -38,14 +32,6 @@
       </param>
     </section>
     <section name='inference' type='section' title='Inference' expanded='true'>
-      <param 
-        name='inference_load_pytorch' 
-        label='Load PyTorch Command' 
-        type='text' 
-        help='Command to load PyTorch using conda activate, module load, etc' 
-        value='source /p/home/__PW_USER__/miniconda3/etc/profile.d/conda.sh; conda activate pytorch-cpu' 
-        width='50%'>
-      </param>
       <param 
         name='num_digits' 
         label='Number of Digits' 

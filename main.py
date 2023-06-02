@@ -3,44 +3,12 @@ import parsl
 print(parsl.__version__, flush = True)
 
 import parsl_utils
-from parsl_utils.config import config, read_args
+from parsl_utils.config import config, read_args, exec_conf
 from parsl_utils.data_provider import PWFile
 
 import pandas as pd
 
-from workflow_apps import train, generate_data
-
-def prepare_design_explorer():
-    """
-    Prepare the CSV and HTML files for Design Explorer
-    """
-    cwd = os.getcwd()
-    csv_file_path = f"{cwd}/generated_data/design_explorer.csv"
-
-    print('\n\nPreparing Design Explorer files')
-    print('Creating CSV file', flush = True)
-    df = pd.read_csv(csv_file_path)
-    df['img:digit'] = os.getcwd() + '/' + df['img:digit'] 
-    df.to_csv(csv_file_path, index = False)
-    
-    print('Creating HTML file', flush = True)
-    html_file = f'''
-<html style="overflow-y:hidden;background:white">
-    <a 
-        style="font-family:sans-serif;z-index:1000;position:absolute;top:15px;right:0px;margin-right:20px;font-style:italic;font-size:10px" 
-        href="/DesignExplorer/index.html?datafile={csv_file_path}&colorby=1" 
-        target="_blank">Open in New Window
-    </a>
-    <iframe 
-        width="100%" 
-        height="100%" 
-        src="/DesignExplorer/index.html?datafile={csv_file_path}&colorby=1" 
-        frameborder="0">
-    </iframe>
-</html>
-'''
-    with open("design_explorer.html", "w") as f:
-        f.write(html_file)
+from workflow_apps import train, generate_data, prepare_design_explorer
 
 
 if __name__ == '__main__':
@@ -84,14 +52,26 @@ if __name__ == '__main__':
     # Run workflow:
     print('\n\nTraining model', flush = True)
     train_fut = train(
-        args['train_load_pytorch'],
+        exec_conf['train']['LOAD_PYTORCH'],
+        retry_parameters = [
+            {
+                'executor': 'train_executor_burst',
+                'args': [args['train_load_pytorch']]
+            }
+        ],
         inputs = [ pytorch_dir, pytorch_inputs_json ],
         outputs = [ model_file ]
     )
 
     print('\n\nGenerating data', flush = True)
     generate_data_fut = generate_data(
-        args['inference_load_pytorch'],
+        exec_conf['inference']['LOAD_PYTORCH'],
+        retry_parameters= [
+            {
+                'executor': 'inference_executor_burst',
+                'args': [args['inference_load_pytorch']]
+            }
+        ],
         inputs = [ pytorch_dir, pytorch_inputs_json, model_file, train_fut],
         outputs = [ generated_data ]
     )
