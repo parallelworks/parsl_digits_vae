@@ -55,8 +55,8 @@ if __name__ == '__main__':
         exec_conf['train']['LOAD_PYTORCH'],
         retry_parameters = [
             {
-                'executor': 'train_executor_burst',
-                'args': [args['train_load_pytorch']]
+                'executor': 'train_burst',
+                'args': [args['LOAD_PYTORCH']]
             }
         ],
         inputs = [ pytorch_dir, pytorch_inputs_json ],
@@ -68,7 +68,7 @@ if __name__ == '__main__':
         exec_conf['inference']['LOAD_PYTORCH'],
         retry_parameters= [
             {
-                'executor': 'inference_executor_burst',
+                'executor': 'inference_burst',
                 'args': [args['inference_load_pytorch']]
             }
         ],
