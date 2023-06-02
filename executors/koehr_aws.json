@@ -8,7 +8,7 @@
       "INSTALL_CONDA": "false",
       "LOCAL_CONDA_YAML": "./requirements/conda_env_remote.yaml",
       "SlurmProvider": {
-        "partition": "gpu",
+        "partition": "gpu-us-east-1a",
         "nodes_per_block": 1,
         "min_blocks": 0,
         "max_blocks": 10,
@@ -24,7 +24,7 @@
       "INSTALL_CONDA": "false",
       "LOCAL_CONDA_YAML": "./requirements/conda_env_remote.yaml",
       "SlurmProvider": {
-        "partition": "cpu",
+        "partition": "gpu-us-east-1b",
         "nodes_per_block": 1,
         "min_blocks": 0,
         "max_blocks": 10,
@@ -60,7 +60,7 @@
       "INSTALL_CONDA": "false",
       "LOCAL_CONDA_YAML": "./requirements/conda_env_remote.yaml",
       "SlurmProvider": {
-        "partition": "gpu",
+        "partition": "gpu-us-east-1a",
         "nodes_per_block": 1,
         "min_blocks": 0,
         "max_blocks": 10,
