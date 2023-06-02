@@ -84,14 +84,14 @@ if __name__ == '__main__':
     # Run workflow:
     print('\n\nTraining model', flush = True)
     train_fut = train(
-        args['gpu_load_pytorch'],
+        args['train_load_pytorch'],
         inputs = [ pytorch_dir, pytorch_inputs_json ],
         outputs = [ model_file ]
     )
 
     print('\n\nGenerating data', flush = True)
     generate_data_fut = generate_data(
-        args['cpu_load_pytorch'],
+        args['inference_load_pytorch'],
         inputs = [ pytorch_dir, pytorch_inputs_json, model_file, train_fut],
         outputs = [ generated_data ]
     )

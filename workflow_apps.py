@@ -3,7 +3,7 @@ import parsl_utils
 
 
 @parsl_utils.parsl_wrappers.log_app
-@bash_app(executors=['gpu-executor'])
+@bash_app(executors=['train_executor'])
 def train(load_pytorch: str, inputs: list = None, outputs: list = None,
           stdout: str ='train.out', stderr: str = 'train.err'):
     
@@ -20,7 +20,7 @@ def train(load_pytorch: str, inputs: list = None, outputs: list = None,
     )
 
 @parsl_utils.parsl_wrappers.log_app
-@bash_app(executors=['cpu-executor'])
+@bash_app(executors=['inference_executor'])
 def generate_data(load_pytorch: str, inputs: list = None, outputs: list = None,
           stdout: str ='generate_data.out', stderr: str = 'generate_data.err'):
     
