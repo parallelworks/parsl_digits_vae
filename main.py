@@ -53,12 +53,6 @@ if __name__ == '__main__':
     print('\n\nTraining model', flush = True)
     train_fut = train(
         exec_conf['train']['LOAD_PYTORCH'],
-        retry_parameters = [
-            {
-                'executor': 'train_burst',
-                'args': [args['LOAD_PYTORCH']]
-            }
-        ],
         inputs = [ pytorch_dir, pytorch_inputs_json ],
         outputs = [ model_file ]
     )
@@ -66,12 +60,6 @@ if __name__ == '__main__':
     print('\n\nGenerating data', flush = True)
     generate_data_fut = generate_data(
         exec_conf['inference']['LOAD_PYTORCH'],
-        retry_parameters= [
-            {
-                'executor': 'inference_burst',
-                'args': [args['inference_load_pytorch']]
-            }
-        ],
         inputs = [ pytorch_dir, pytorch_inputs_json, model_file, train_fut],
         outputs = [ generated_data ]
     )
