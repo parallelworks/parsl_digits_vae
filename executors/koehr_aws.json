@@ -10,6 +10,7 @@
     "SlurmProvider": {
       "partition": "gpu-us-east-1a",
       "nodes_per_block": 1,
+      "init_blocks": 0,
       "min_blocks": 0,
       "max_blocks": 10,
       "walltime": "01:00:00"
@@ -26,6 +27,7 @@
     "SlurmProvider": {
       "partition": "gpu-us-east-1b",
       "nodes_per_block": 1,
+      "init_blocks": 0,
       "min_blocks": 0,
       "max_blocks": 10,
       "walltime": "01:00:00"
@@ -42,6 +44,7 @@
     "SlurmProvider": {
       "partition": "gpu-us-east-1a",
       "nodes_per_block": 1,
+      "init_blocks": 0,
       "min_blocks": 0,
       "max_blocks": 10,
       "walltime": "01:00:00"
@@ -62,6 +65,7 @@
       "account": "HPCMO49636PRW",
       "scheduler_options": "#PBS -A HPCMO49636PRW\n#PBS -q debug\ncd __RUN_DIR__",
       "nodes_per_block": 1,
+      "init_blocks": 0,
       "min_blocks": 0,
       "max_blocks": 10,
       "walltime": "00:10:00"
