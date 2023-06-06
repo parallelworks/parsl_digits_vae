@@ -48,18 +48,41 @@ if __name__ == '__main__':
     )
 
     # Run workflow:
+    # FIXME: For now, we need to pass the inputs and outputs to the retry_parameters
+    #        list because the paths change from one executor to another and are converted
+    #        to absolute paths in the first executor
     print('\n\nTraining model', flush = True)
     train_fut = train(
         exec_conf['train']['LOAD_PYTORCH'],
         inputs = [ pytorch_dir, pytorch_inputs_json ],
-        outputs = [ model_file ]
+        outputs = [ model_file ],
+        retry_parameters = [
+            {
+                'executor': 'train_burst',
+                'args': [exec_conf['train_burst']['LOAD_PYTORCH']],
+                'kwargs': {
+                    'inputs':  [ pytorch_dir, pytorch_inputs_json ],
+                    'outputs': [ model_file ]
+                }
+            }
+        ]
     )
 
     print('\n\nGenerating data', flush = True)
     generate_data_fut = generate_data(
         exec_conf['inference']['LOAD_PYTORCH'],
         inputs = [ pytorch_dir, pytorch_inputs_json, model_file, train_fut],
-        outputs = [ generated_data ]
+        outputs = [ generated_data ],
+        retry_parameters = [
+            {
+                'executor': 'inference_burst',
+                'args': [exec_conf['inference_burst']['LOAD_PYTORCH']],
+                'kwargs': {
+                    'inputs':  [ pytorch_dir, pytorch_inputs_json, model_file, train_fut],
+                    'outputs': [ generated_data ]
+                }
+            }
+        ]
     )
 
     generate_data_fut.result()

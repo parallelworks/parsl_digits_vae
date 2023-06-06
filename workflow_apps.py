@@ -1,25 +1,16 @@
 import os
 import pandas as pd
-from parsl.app.app import bash_app
 import parsl_utils
-from parsl_utils.config import exec_conf
+from parsl.app.app import bash_app
 
 """
 The train app runs on the "train" executor. If the walltime of 300 seconds is exceeded
 or the app fails it bursts out to the "train_burst" executor.
 """
 
-# Retry configuration of the train app
-train_retry_parameters = [
-    {
-        'executor': 'train_burst',
-        'args': [exec_conf['train_burst']['LOAD_PYTORCH']]
-    }
-]
-
 @parsl_utils.parsl_wrappers.log_app
 @bash_app(executors=['train'])
-def train(load_pytorch: str, walltime: int = 300, retry_parameters: list = train_retry_parameters, 
+def train(load_pytorch: str, walltime: int = 300, retry_parameters: list = None, 
           inputs: list = None, outputs: list = None,
           stdout: str ='train.out', stderr: str = 'train.err'):
     
@@ -40,18 +31,9 @@ The generate data app runs on the "inference" executor. If the walltime of 300 s
 or the app fails it bursts out to the "inference_burst" executor.
 """
 
-# Retry configuration of the train app
-inference_retry_parameters = [
-    {
-        'executor': 'inference_burst',
-        'args': [exec_conf['inference_burst']['LOAD_PYTORCH']]
-    }
-]
-
-
 @parsl_utils.parsl_wrappers.log_app
 @bash_app(executors=['inference'])
-def generate_data(load_pytorch: str, walltime: int = 300, retry_parameters: list = inference_retry_parameters, 
+def generate_data(load_pytorch: str, walltime: int = 300, retry_parameters: list = None, 
                   inputs: list = None, outputs: list = None,
                   stdout: str ='generate_data.out', stderr: str = 'generate_data.err'):
     
