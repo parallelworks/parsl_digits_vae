@@ -1,4 +1,6 @@
 import json
+import traceback, sys
+
 import parsl
 print(parsl.__version__, flush = True)
 from parsl.app.app import bash_app
@@ -49,40 +51,60 @@ if __name__ == '__main__':
     )
 
     # Run workflow:
+    """
     print('\n\nTraining model', flush = True)
-    for exec_label in ['train', 'train_burst']:
-        print(f'Submitting to {exec_label} executor')
+    train_executors = ['train', 'train_burst']
+    for exec_label in train_executors:
+        try:
+            print(f'Submitting to {exec_label} executor')
 
-        decorated_train = parsl_utils.parsl_wrappers.timeout_app(seconds = 300)(
-            bash_app(executors = [exec_label])(
-                train
+            decorated_train = parsl_utils.parsl_wrappers.timeout_app(seconds = 300)(
+                bash_app(executors = [exec_label])(train)
             )
-        )
+            
+            train_fut = decorated_train(
+                exec_conf[exec_label]['LOAD_PYTORCH'],
+                inputs = [ pytorch_dir, pytorch_inputs_json ],
+                outputs = [ model_file ]
+            )
+            train_fut.result()
+            break
 
-        train_fut = decorated_train(
-            exec_conf[exec_label]['LOAD_PYTORCH'],
-            inputs = [ pytorch_dir, pytorch_inputs_json ],
-            outputs = [ model_file ]
-        )
-        train_fut.result()
-
+        except Exception as e:
+            print(f'Exception occurred: {str(e)}')
+            traceback.print_exc(file=sys.stdout)
+            if exec_label == train_executors[-1]:
+                raise
+            else:
+                print('Retrying...')
+    """
+    
     print('\n\nGenerating data', flush = True)
-    for exec_label in ['inference', 'inference_burst']:
-        print(f'Submitting to {exec_label} executor')
+    inference_executors = ['inference', 'inference_burst']
+    for exec_label in inference_executors:
+        try:
+            print(f'Submitting to {exec_label} executor')
 
-        decorated_generate_data = parsl_utils.parsl_wrappers.timeout_app(seconds = 300)(
-            bash_app(executors = [exec_label])(
-                generate_data
+            decorated_generate_data = parsl_utils.parsl_wrappers.timeout_app(seconds = 300)(
+                bash_app(executors = [exec_label])(generate_data)
             )
-        )
+            
+            generate_data_fut = decorated_generate_data(
+                exec_conf['inference']['LOAD_PYTORCH'],
+                inputs = [ pytorch_dir, pytorch_inputs_json, model_file],
+                outputs = [ generated_data ]
+            )
 
-        generate_data_fut = decorated_generate_data(
-            exec_conf['inference']['LOAD_PYTORCH'],
-            inputs = [ pytorch_dir, pytorch_inputs_json, model_file],
-            outputs = [ generated_data ]
-        )
+            generate_data_fut.result()
+            break
 
-        generate_data_fut.result()
+        except Exception as e:
+            print(f'Exception occurred: {str(e)}')
+            traceback.print_exc(file=sys.stdout)
+            if exec_label == inference_executors[-1]:
+                raise
+            else:
+                print('Retrying...')
 
     # Design Explorer:
     prepare_design_explorer()
