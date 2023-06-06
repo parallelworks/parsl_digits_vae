@@ -1,7 +1,6 @@
 import json
 import parsl
 print(parsl.__version__, flush = True)
-from parsl.app.app import bash_app
 
 import parsl_utils
 from parsl_utils.config import config, read_args, exec_conf
@@ -49,37 +48,44 @@ if __name__ == '__main__':
     )
 
     # Run workflow:
+    # FIXME: For now, we need to pass the inputs and outputs to the retry_parameters
+    #        list because the paths change from one executor to another and are converted
+    #        to absolute paths in the first executor
     print('\n\nTraining model', flush = True)
-    for exec_label in ['train', 'train_burst']:
-        print(f'Submitting to {exec_label}')
-        train_fut = parsl_utils.parsl_wrappers.timeout_app(
-            bash_app(
-                train(
-                    exec_conf[exec_label]['LOAD_PYTORCH'],
-                    inputs = [ pytorch_dir, pytorch_inputs_json ],
-                    outputs = [ model_file ]
-                ),
-                executors = [exec_label]
-            ),
-            seconds = 300
-        )
-        train_fut.result()
+    train_fut = train(
+        exec_conf['train']['LOAD_PYTORCH'],
+        inputs = [ pytorch_dir, pytorch_inputs_json ],
+        outputs = [ model_file ],
+        retry_parameters = [
+            {
+                'executor': 'train_burst',
+                'args': [exec_conf['train_burst']['LOAD_PYTORCH']],
+                'kwargs': {
+                    'inputs':  [ pytorch_dir, pytorch_inputs_json ],
+                    'outputs': [ model_file ]
+                }
+            }
+        ]
+    )
 
     print('\n\nGenerating data', flush = True)
-    for exec_label in ['inference', 'inference_burst']:
-        print(f'Submitting to {exec_label}')
-        generate_data_fut = parsl_utils.parsl_wrappers.timeout_app(
-            bash_app(
-                generate_data(
-                    exec_conf['inference']['LOAD_PYTORCH'],
-                    inputs = [ pytorch_dir, pytorch_inputs_json, model_file],
-                    outputs = [ generated_data ]
-                ),
-                executors = [exec_label]
-            ),
-            seconds = 300
-        )
-        generate_data_fut.result()
+    generate_data_fut = generate_data(
+        exec_conf['inference']['LOAD_PYTORCH'],
+        inputs = [ pytorch_dir, pytorch_inputs_json, model_file, train_fut],
+        outputs = [ generated_data ],
+        retry_parameters = [
+            {
+                'executor': 'inference_burst',
+                'args': [exec_conf['inference_burst']['LOAD_PYTORCH']],
+                'kwargs': {
+                    'inputs':  [ pytorch_dir, pytorch_inputs_json, model_file, train_fut],
+                    'outputs': [ generated_data ]
+                }
+            }
+        ]
+    )
+
+    generate_data_fut.result()
 
     # Design Explorer:
     prepare_design_explorer()

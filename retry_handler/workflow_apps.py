@@ -1,7 +1,15 @@
 import os
 import pandas as pd
+import parsl_utils
+from parsl.app.app import bash_app
 
+"""
+The train app runs on the "train" executor. If the walltime of 300 seconds is exceeded
+or the app fails it bursts out to the "train_burst" executor.
+"""
 
+@parsl_utils.parsl_wrappers.log_app
+@bash_app(executors=['train'])
 def train(load_pytorch: str, walltime: int = 300, retry_parameters: list = None, 
           inputs: list = None, outputs: list = None,
           stdout: str ='train.out', stderr: str = 'train.err'):
@@ -18,6 +26,13 @@ def train(load_pytorch: str, walltime: int = 300, retry_parameters: list = None,
         pytorch_inputs_json = inputs[1].local_path
     )
 
+"""
+The generate data app runs on the "inference" executor. If the walltime of 300 seconds is exceeded
+or the app fails it bursts out to the "inference_burst" executor.
+"""
+
+@parsl_utils.parsl_wrappers.log_app
+@bash_app(executors=['inference'])
 def generate_data(load_pytorch: str, walltime: int = 300, retry_parameters: list = None, 
                   inputs: list = None, outputs: list = None,
                   stdout: str ='generate_data.out', stderr: str = 'generate_data.err'):
