@@ -1,3 +1,4 @@
+import os
 from parsl.app.app import bash_app
 import parsl_utils
 from parsl_utils.config import exec_conf
