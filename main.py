@@ -51,34 +51,37 @@ if __name__ == '__main__':
     # Run workflow:
     print('\n\nTraining model', flush = True)
     for exec_label in ['train', 'train_burst']:
-        print(f'Submitting to {exec_label}')
-        train_fut = parsl_utils.parsl_wrappers.timeout_app(
-            bash_app(
-                train(
-                    exec_conf[exec_label]['LOAD_PYTORCH'],
-                    inputs = [ pytorch_dir, pytorch_inputs_json ],
-                    outputs = [ model_file ]
-                ),
-                executors = [exec_label]
-            ),
-            seconds = 300
+        print(f'Submitting to {exec_label} executor')
+
+        decorated_train = parsl_utils.parsl_wrappers.timeout_app(seconds = 300)(
+            bash_app(executors = [exec_label])(
+                train
+            )
+        )
+
+        train_fut = decorated_train(
+            exec_conf[exec_label]['LOAD_PYTORCH'],
+            inputs = [ pytorch_dir, pytorch_inputs_json ],
+            outputs = [ model_file ]
         )
         train_fut.result()
 
     print('\n\nGenerating data', flush = True)
     for exec_label in ['inference', 'inference_burst']:
-        print(f'Submitting to {exec_label}')
-        generate_data_fut = parsl_utils.parsl_wrappers.timeout_app(
-            bash_app(
-                generate_data(
-                    exec_conf['inference']['LOAD_PYTORCH'],
-                    inputs = [ pytorch_dir, pytorch_inputs_json, model_file],
-                    outputs = [ generated_data ]
-                ),
-                executors = [exec_label]
-            ),
-            seconds = 300
+        print(f'Submitting to {exec_label} executor')
+
+        decorated_generate_data = parsl_utils.parsl_wrappers.timeout_app(seconds = 300)(
+            bash_app(executors = [exec_label])(
+                generate_data
+            )
         )
+
+        generate_data_fut = decorated_generate_data(
+            exec_conf['inference']['LOAD_PYTORCH'],
+            inputs = [ pytorch_dir, pytorch_inputs_json, model_file],
+            outputs = [ generated_data ]
+        )
+
         generate_data_fut.result()
 
     # Design Explorer:
