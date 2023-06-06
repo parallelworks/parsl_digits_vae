@@ -1,6 +1,7 @@
 {
   "train": {
     "LOAD_PYTORCH": "source___/contrib/miniconda/etc/profile.d/conda.sh;___conda___activate___pytorch-gpu",
+    "MAX_RUNTIME": 300,
     "POOL": "awsv2",
     "REQUIRED": "true",
     "CONDA_ENV": "parsl-1.2",
@@ -18,6 +19,7 @@
   },
   "train_burst": {
     "LOAD_PYTORCH": "source___/contrib/miniconda/etc/profile.d/conda.sh;___conda___activate___pytorch-gpu",
+    "MAX_RUNTIME": 300,
     "POOL": "awsv2",
     "REQUIRED": "true",
     "CONDA_ENV": "parsl-1.2",
@@ -35,6 +37,7 @@
   },
   "inference_burst": {
     "LOAD_PYTORCH": "source___/contrib/miniconda/etc/profile.d/conda.sh;___conda___activate___pytorch-gpu",
+    "MAX_RUNTIME": 300,
     "POOL": "awsv2",
     "REQUIRED": "true",
     "CONDA_ENV": "parsl-1.2",
@@ -52,6 +55,7 @@
   },
   "inference": {
     "LOAD_PYTORCH": "source___/p/home/avidalto/miniconda3/etc/profile.d/conda.sh;___conda___activate___pytorch-cpu",
+    "MAX_RUNTIME": 300,
     "POOL": "koehr",
     "GSSAPI_AUTH": "true",
     "CONDA_ENV": "parsl-1.2",

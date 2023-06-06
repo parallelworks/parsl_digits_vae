@@ -57,7 +57,7 @@ if __name__ == '__main__':
         try:
             print(f'Submitting to {exec_label} executor')
 
-            decorated_train = parsl_utils.parsl_wrappers.timeout_app(seconds = 300)(
+            decorated_train = parsl_utils.parsl_wrappers.timeout_app(seconds = int(exec_conf[exec_label]['MAX_RUNTIME']))(
                 bash_app(executors = [exec_label])(train)
             )
             
@@ -83,7 +83,7 @@ if __name__ == '__main__':
         try:
             print(f'Submitting to {exec_label} executor')
 
-            decorated_generate_data = parsl_utils.parsl_wrappers.timeout_app(seconds = 300)(
+            decorated_generate_data = parsl_utils.parsl_wrappers.timeout_app(seconds = int(exec_conf[exec_label]['MAX_RUNTIME']))(
                 bash_app(executors = [exec_label])(generate_data)
             )
             
