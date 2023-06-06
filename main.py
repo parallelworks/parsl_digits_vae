@@ -51,7 +51,6 @@ if __name__ == '__main__':
     )
 
     # Run workflow:
-    """
     print('\n\nTraining model', flush = True)
     train_executors = ['train', 'train_burst']
     for exec_label in train_executors:
@@ -77,7 +76,6 @@ if __name__ == '__main__':
                 raise
             else:
                 print('Retrying...')
-    """
     
     print('\n\nGenerating data', flush = True)
     inference_executors = ['inference', 'inference_burst']
@@ -90,7 +88,7 @@ if __name__ == '__main__':
             )
             
             generate_data_fut = decorated_generate_data(
-                exec_conf['inference']['LOAD_PYTORCH'],
+                exec_conf[exec_label]['LOAD_PYTORCH'],
                 inputs = [ pytorch_dir, pytorch_inputs_json, model_file],
                 outputs = [ generated_data ]
             )
