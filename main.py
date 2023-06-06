@@ -1,12 +1,10 @@
-import json, os
+import json
 import parsl
 print(parsl.__version__, flush = True)
 
 import parsl_utils
 from parsl_utils.config import config, read_args, exec_conf
 from parsl_utils.data_provider import PWFile
-
-import pandas as pd
 
 from workflow_apps import train, generate_data, prepare_design_explorer
 
