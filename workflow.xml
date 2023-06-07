@@ -4,7 +4,7 @@
     <section name='train' type='section' title='Train Host' expanded='true'>
       <param name='_pw_train_resource_name' label='Resource Name' type='text' value='awsv2' help='Name of the PW resource' width='50%'></param>
       <param name='_pw_train_load_pytorch' label='Load Pytorch Command' type='text' value='source /contrib/miniconda/etc/profile.d/conda.sh; conda activate pytorch-gpu' help='Command to load pytorch on this resource' width='50%'></param>
-      <param name='train_max_runtime' label='Walltime [s]' type='text' value='600' help='Maximum runtime in seconds including queue time' width='50%'></param>
+      <param name='_pw_train_max_runtime' label='Walltime [s]' type='text' value='600' help='Maximum runtime in seconds including queue time' width='50%'></param>
       <param name='_pw_train_workdir' label='Run Directory' type='text' value='/home/__USER__' help='Maximum runtime in seconds including queue time' width='50%'></param>
       <conditional name="train_jobschedulertype_cond">
           <param name='_pw_train_jobschedulertype' type='select' label='Select Controller, SLURM Partition or PBS Queue' help='Job will submitted using SSH, sbatch or qsub, respectively' width='50%' multiple='false'>
@@ -29,7 +29,7 @@
     <section name='train_burst' type='section' title='Train Burst Host' expanded='false'>
       <param name='_pw_train_burst_resource_name' label='Resource Name' type='text' value='awsv2' help='Name of the PW resource' width='50%'></param>
       <param name='_pw_train_burst_load_pytorch' label='Load Pytorch Command' type='text' value='source /contrib/miniconda/etc/profile.d/conda.sh; conda activate pytorch-gpu' help='Command to load pytorch on this resource' width='50%'></param>
-      <param name='train_burst_max_runtime' label='Walltime [s]' type='text' value='600' help='Maximum runtime in seconds including queue time' width='50%'></param>
+      <param name='_pw_train_burst_max_runtime' label='Walltime [s]' type='text' value='600' help='Maximum runtime in seconds including queue time' width='50%'></param>
       <param name='_pw_train_burst_workdir' label='Run Directory' type='text' value='/home/__USER__' help='Maximum runtime in seconds including queue time' width='50%'></param>
       <conditional name="train_burst_jobschedulertype_cond">
           <param name='_pw_train_burst_jobschedulertype' type='select' label='Select Controller, SLURM Partition or PBS Queue' help='Job will submitted using SSH, sbatch or qsub, respectively' width='50%' multiple='false'>
@@ -54,7 +54,7 @@
     <section name='inference' type='section' title='Inference Host' expanded='true'>
       <param name='_pw_inference_resource_name' label='Resource Name' type='text' value='koehr' help='Name of the PW resource' width='50%'></param>
       <param name='_pw_inference_load_pytorch' label='Load Pytorch Command' type='text' value='source /contrib/miniconda/etc/profile.d/conda.sh; conda activate pytorch-gpu' help='Command to load pytorch on this resource' width='50%'></param>
-      <param name='inference_max_runtime' label='Walltime [s]' type='text' value='600' help='Maximum runtime in seconds including queue time' width='50%'></param>
+      <param name='_pw_inference_max_runtime' label='Walltime [s]' type='text' value='600' help='Maximum runtime in seconds including queue time' width='50%'></param>
       <param name='_pw_inference_workdir' label='Run Directory' type='text' value='/home/__USER__' help='Maximum runtime in seconds including queue time' width='50%'></param>
       <conditional name="inference_jobschedulertype_cond">
           <param name='_pw_inference_jobschedulertype' type='select' label='Select Controller, SLURM Partition or PBS Queue' help='Job will submitted using SSH, sbatch or qsub, respectively' width='50%' multiple='false'>
@@ -79,7 +79,7 @@
     <section name='inference_burst' type='section' title='Inference Burst Host' expanded='false'>
       <param name='_pw_inference_burst_resource_name' label='Resource Name' type='text' value='awsv2' help='Name of the PW resource' width='50%'></param>
       <param name='_pw_inference_burst_load_pytorch' label='Load Pytorch Command' type='text' value='source /contrib/miniconda/etc/profile.d/conda.sh; conda activate pytorch-gpu' help='Command to load pytorch on this resource' width='50%'></param>
-      <param name='inference_burst_max_runtime' label='Walltime [s]' type='text' value='600' help='Maximum runtime in seconds including queue time' width='50%'></param>
+      <param name='_pw_inference_burst_max_runtime' label='Walltime [s]' type='text' value='600' help='Maximum runtime in seconds including queue time' width='50%'></param>
       <param name='_pw_inference_burst_workdir' label='Run Directory' type='text' value='/home/__USER__' help='Maximum runtime in seconds including queue time' width='50%'></param>
       <conditional name="inference_burst_jobschedulertype_cond">
           <param name='_pw_inference_burst_jobschedulertype' type='select' label='Select Controller, SLURM Partition or PBS Queue' help='Job will submitted using SSH, sbatch or qsub, respectively' width='50%' multiple='false'>
@@ -103,7 +103,7 @@
     </section>
     <section name='train_params' type='section' title='Train Parameters' expanded='true'>
       <param 
-        name='latent_size' 
+        name='_pw_latent_size' 
         label='Latent Size' 
         type='integer' 
         min='1' 
@@ -113,7 +113,7 @@
         width='50%'>
       </param>
       <param 
-        name='num_epochs' 
+        name='_pw_num_epochs' 
         label='Number of Epochs' 
         type='integer' 
         min='1' 
@@ -122,7 +122,7 @@
         width='50%'>
       </param>
       <param 
-        name='learning_rate' 
+        name='_pw_learning_rate' 
         label='Learning Rate' 
         type='text' 
         value='0.001' 
@@ -131,7 +131,7 @@
     </section>
     <section name='inference_params' type='section' title='Inference Parameters' expanded='true'>
       <param 
-        name='num_digits' 
+        name='_pw_num_digits' 
         label='Number of Digits' 
         type='integer' 
         min='2' 

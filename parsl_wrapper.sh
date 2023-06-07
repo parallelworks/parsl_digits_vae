@@ -56,9 +56,13 @@ source /pw/kerberos/source.env
 # Cant run a scripts inside parsl_utils directly
 bash parsl_utils/main.sh \
     --train_max_runtime ${train_max_runtime} \
+    --train_jobschedulertype ${train_jobschedulertype} \
     --train_burst_max_runtime ${train_burst_max_runtime} \
-    --inference_max_runtime ${inference_max_runtime} \ 
+    --train_burst_jobschedulertype ${train_burst_jobschedulertype} \
+    --inference_max_runtime ${inference_max_runtime} \
+    --inference_jobschedulertype ${inference_jobschedulertype}
     --inference_burst_max_runtime ${inference_burst_max_runtime} \
+    --inference_burst_jobschedulertype ${inference_burst_jobschedulertype} \
     --latent_size ${latent_size} \ 
     --num_epochs ${num_epochs} \ 
     --learning_rate ${learning_rate} \
