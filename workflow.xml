@@ -1,7 +1,7 @@
 <tool id='alvaro_singlecluster_parsl_demo' name='alvaro_singlecluster_parsl_demo'>
   <command interpreter='bash'>parsl_wrapper.sh</command>
   <inputs>
-    <param name='parsl_retries' label='Number of Retries' type='integer' min='0' max='200' help='Number of times the Parsl apps are resubmitted' value='3' width='25%'>
+    <param name='_pw_parsl_retries' label='Number of Retries' type='integer' min='0' max='200' help='Number of times the Parsl apps are resubmitted' value='3' width='25%'>
     </param>
     <section name='train' type='section' title='Train Host' expanded='true'>
       <param name='_pw_train_resource_name' label='Resource Name' type='text' value='awsv2' help='Name of the PW resource' width='50%'></param>
