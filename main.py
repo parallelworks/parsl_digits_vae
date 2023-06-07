@@ -47,7 +47,7 @@ if __name__ == '__main__':
     print('\n\nTraining model', flush = True)
     train_fut = bash_app(run_script, executors = ['train'])(
         args['train_jobschedulertype'],
-        walltime = args['train_max_runtime'],
+        walltime = int(args['train_max_runtime']),
         inputs = [ train_script, pytorch_dir, pytorch_inputs_json ],
         outputs = [ model_file ],
         retry_parameters = [
@@ -55,18 +55,19 @@ if __name__ == '__main__':
                 'executor': 'train_burst',
                 'args': args['train_burst_jobschedulertype'],
                 'kwargs': {
-                    'walltime': args['train_burst_max_runtime'],
+                    'walltime': int(args['train_burst_max_runtime']),
                     'inputs':  [ train_burst_script, pytorch_dir, pytorch_inputs_json ],
                     'outputs': [ model_file ]
                 }
             }
         ]
     )
+    train_fut.result()
 
     print('\n\nGenerating data', flush = True)
     generate_data_fut = bash_app(run_script, executors = ['inference'])(
         args['inference_jobschedulertype'],
-        walltime = args['inference_max_runtime'],
+        walltime = int(args['inference_max_runtime']),
         inputs = [ inference_script, pytorch_dir, pytorch_inputs_json, model_file],
         outputs = [ generated_data ],
         retry_parameters = [
@@ -74,7 +75,7 @@ if __name__ == '__main__':
                 'executor': 'inference_burst',
                 'args':         args['inference_burst_jobschedulertype'],
                 'kwargs': {
-                    'walltime': args['inference_burst_max_runtime'],
+                    'walltime': int(args['inference_burst_max_runtime']),
                     'inputs':  [ inference_burst_script, pytorch_dir, pytorch_inputs_json, model_file],
                     'outputs': [ generated_data ]
                 }
