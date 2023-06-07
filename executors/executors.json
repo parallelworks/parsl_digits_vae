@@ -1,0 +1,36 @@
+{
+  "train": {
+    "POOL": "__train_resource_name__",
+    "REQUIRED": "true",
+    "CONDA_ENV": "parsl-1.2",
+    "CONDA_DIR": "/contrib/__USER__/pw/miniconda3",
+    "INSTALL_CONDA": "false",
+    "LOCAL_CONDA_YAML": "./requirements/conda_env_remote.yaml"
+  },
+  "train_burst": {
+    "POOL": "__train_burst_resource_name__",
+    "REQUIRED": "true",
+    "CONDA_ENV": "parsl-1.2",
+    "CONDA_DIR": "/contrib/__USER__/pw/miniconda3",
+    "INSTALL_CONDA": "false",
+    "LOCAL_CONDA_YAML": "./requirements/conda_env_remote.yaml",
+  },
+  "inference_burst": {
+    "POOL": "__inference_burst_resource_name__",
+    "REQUIRED": "true",
+    "CONDA_ENV": "parsl-1.2",
+    "CONDA_DIR": "/contrib/__USER__/pw/miniconda3",
+    "INSTALL_CONDA": "false",
+    "LOCAL_CONDA_YAML": "./requirements/conda_env_remote.yaml"
+  },
+  "inference": {
+    "POOL": "__inference_resource_name__",
+    "GSSAPI_AUTH": "true",
+    "CONDA_ENV": "parsl-1.2",
+    "CONDA_DIR": "__POOLWORKDIR__/pw/miniconda",
+    "CORES_PER_WORKER": 96,
+    "INSTALL_CONDA": "false",
+    "STAGE_PARSL_UTILS": "true",
+    "LOCAL_CONDA_YAML": "./requirements/conda_env_remote.yaml"
+  }
+}

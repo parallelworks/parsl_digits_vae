@@ -1,6 +1,9 @@
 #!/bin/bash
 set -x
 
+
+
+
 # Otherwise the submodule is fixed to a given commit...
 rm -rf parsl_utils
 git clone https://github.com/parallelworks/parsl_utils.git parsl_utils
