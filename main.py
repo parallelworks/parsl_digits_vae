@@ -1,12 +1,13 @@
 import json
 import parsl
+from parsl.app.app import bash_app
 print(parsl.__version__, flush = True)
 
 import parsl_utils
 from parsl_utils.config import config, read_args, exec_conf
 from parsl_utils.data_provider import PWFile
 
-from workflow_apps import train, generate_data, prepare_design_explorer
+from workflow_apps import run_script, prepare_design_explorer
 
 
 if __name__ == '__main__':
@@ -24,44 +25,36 @@ if __name__ == '__main__':
     }
     
     # Transfer files
-    model_file = PWFile(
-        url = pytorch_inputs['model_path'],
-        local_path = pytorch_inputs['model_path']
-    )
-
-    pytorch_dir = PWFile(
-        url = './pytorch/',
-        local_path = './pytorch/'
-    )
-
-    pytorch_inputs_json = PWFile(
-        url = "./pytorch_inputs.json",
-        local_path = "./pytorch_inputs.json"
-    )
-    
+    # - SLURM, PBS and BASH run scripts. Burst scripts are only executed if the app times out
+    train_script = PWFile(url = './train.sh', local_path = './train.sh')
+    train_burst_script = PWFile(url = './train_burst.sh', local_path = './train_burst.sh')
+    inference_script = PWFile(url = './inference.sh', local_path = './inference.sh')
+    inference_burst_script = PWFile(url = './inference_burst.sh', local_path = './inference_burst.sh')
+    # - PyTorch scripts
+    pytorch_dir = PWFile(url = './pytorch/', local_path = './pytorch/')
+    # - PyTorch parameters
+    pytorch_inputs_json = PWFile(url = "./pytorch_inputs.json", local_path = "./pytorch_inputs.json")
     with open(pytorch_inputs_json.local_path, 'w') as file:
         json.dump(pytorch_inputs, file, indent=4)
 
-    generated_data = PWFile(
-        url = pytorch_inputs['gen_data_dir'],
-        local_path = pytorch_inputs['gen_data_dir']
-    )
+    # - Pytorch model
+    model_file = PWFile(url = pytorch_inputs['model_path'], local_path = pytorch_inputs['model_path'])
+    
+    # - Pytorch generated data
+    generated_data = PWFile(url = pytorch_inputs['gen_data_dir'], local_path = pytorch_inputs['gen_data_dir'])
 
     # Run workflow:
-    # FIXME: For now, we need to pass the inputs and outputs to the retry_parameters
-    #        list because the paths change from one executor to another and are converted
-    #        to absolute paths in the first executor
     print('\n\nTraining model', flush = True)
-    train_fut = train(
-        exec_conf['train']['LOAD_PYTORCH'],
-        inputs = [ pytorch_dir, pytorch_inputs_json ],
+    train_fut = bash_app(run_script, executors = ['train'])(
+        args['_pw_train_jobschedulertype'],
+        inputs = [ train_script, pytorch_dir, pytorch_inputs_json ],
         outputs = [ model_file ],
         retry_parameters = [
             {
                 'executor': 'train_burst',
-                'args': [exec_conf['train_burst']['LOAD_PYTORCH']],
+                'args': args['_pw_train_burst_jobschedulertype'],
                 'kwargs': {
-                    'inputs':  [ pytorch_dir, pytorch_inputs_json ],
+                    'inputs':  [ train_burst_script, pytorch_dir, pytorch_inputs_json ],
                     'outputs': [ model_file ]
                 }
             }
@@ -69,16 +62,16 @@ if __name__ == '__main__':
     )
 
     print('\n\nGenerating data', flush = True)
-    generate_data_fut = generate_data(
-        exec_conf['inference']['LOAD_PYTORCH'],
-        inputs = [ pytorch_dir, pytorch_inputs_json, model_file, train_fut],
+    generate_data_fut = bash_app(run_script, executors = ['inference'])(
+        args['_pw_inference_jobschedulertype'],
+        inputs = [ inference_script, pytorch_dir, pytorch_inputs_json, model_file],
         outputs = [ generated_data ],
         retry_parameters = [
             {
                 'executor': 'inference_burst',
-                'args': [exec_conf['inference_burst']['LOAD_PYTORCH']],
+                'args':         args['_pw_inference_burst_jobschedulertype'],
                 'kwargs': {
-                    'inputs':  [ pytorch_dir, pytorch_inputs_json, model_file, train_fut],
+                    'inputs':  [ inference_burst_script, pytorch_dir, pytorch_inputs_json, model_file],
                     'outputs': [ generated_data ]
                 }
             }

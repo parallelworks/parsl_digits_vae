@@ -1,52 +1,25 @@
 import os
 import pandas as pd
 import parsl_utils
-from parsl.app.app import bash_app
 
-"""
-The train app runs on the "train" executor. If the walltime of 300 seconds is exceeded
-or the app fails it bursts out to the "train_burst" executor.
-"""
 
-@parsl_utils.parsl_wrappers.log_app
-@bash_app(executors=['train'])
-def train(load_pytorch: str, walltime: int = 300, retry_parameters: list = None, 
+
+def run_script(jobschedulertype: str, walltime: int = 300, retry_parameters: list = None, 
           inputs: list = None, outputs: list = None,
-          stdout: str ='train.out', stderr: str = 'train.err'):
+          stdout: str ='run_script.out', stderr: str = 'run_script.err'):
     
-    """
-    Creates the mpitest binary in the working directory
-    """
+    if jobschedulertype == 'SLURM':
+        cmd = 'sbatch -W'
+    elif jobschedulertype == 'PBS':
+        cmd = 'qsub  -W block=true'
+    else:
+        cmd = 'bash'
+        
     return '''
-    {load_pytorch}
-    python {pytorch_dir}/train.py {pytorch_inputs_json}
+    {cmd} {script}
     '''.format(
-        load_pytorch = load_pytorch,
-        pytorch_dir = inputs[0].local_path,
-        pytorch_inputs_json = inputs[1].local_path
-    )
-
-"""
-The generate data app runs on the "inference" executor. If the walltime of 300 seconds is exceeded
-or the app fails it bursts out to the "inference_burst" executor.
-"""
-
-@parsl_utils.parsl_wrappers.log_app
-@bash_app(executors=['inference'])
-def generate_data(load_pytorch: str, walltime: int = 300, retry_parameters: list = None, 
-                  inputs: list = None, outputs: list = None,
-                  stdout: str ='generate_data.out', stderr: str = 'generate_data.err'):
-    
-    """
-    Creates the mpitest binary in the working directory
-    """
-    return '''
-    {load_pytorch}
-    python {pytorch_dir}/generate_data.py {pytorch_inputs_json}
-    '''.format(
-        load_pytorch = load_pytorch,
-        pytorch_dir = inputs[0].local_path,
-        pytorch_inputs_json = inputs[1].local_path
+        cmd = cmd,
+        script = inputs[0].local_path,
     )
 
 

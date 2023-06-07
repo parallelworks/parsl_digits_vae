@@ -1,32 +1,107 @@
 <tool id='alvaro_singlecluster_parsl_demo' name='alvaro_singlecluster_parsl_demo'>
   <command interpreter='bash'>parsl_wrapper.sh</command>
   <inputs>
-    <section name='train' type='section' title='Training host' expanded='true'>
-      <param name='_pw_train_resource_name' label='Resource name' type='text' value='awsv2' help='Name of the PW resource to train the model' width='50%_none'></param>
-      <param name='_pw_train_load_pytorch' label='Load pytorch command' type='text' value='source___/contrib/miniconda/etc/profile.d/conda.sh;___conda___activate___pytorch-gpu' help='Command to load pytorch on this resource' width='50%_none'></param>
-      <param name='_pw_train_max_runtime' label='Walltime [s]' type='text' value='600' help='Maximum runtime in seconds including queue time' width='50%_none'></param>
-      <param name='_pw_train_workdir' label='Walltime [s]' type='text' value='/home/__USER__' help='Maximum runtime in seconds including queue time' width='50%_none'></param>
-      <conditional name="jobschedulertype_cond">
-          <param name='_pw_jobschedulertype' type='select' label='Select Controller, SLURM Partition or PBS Queue' help='Job will submitted using SSH, sbatch or qsub, respectively' width='50%_none' multiple='false'>
+    <section name='train' type='section' title='Train Host' expanded='true'>
+      <param name='_pw_train_resource_name' label='Resource Name' type='text' value='awsv2' help='Name of the PW resource' width='50%'></param>
+      <param name='_pw_train_load_pytorch' label='Load Pytorch Command' type='text' value='source /contrib/miniconda/etc/profile.d/conda.sh; conda activate   pytorch-gpu' help='Command to load pytorch on this resource' width='50%'></param>
+      <param name='train_max_runtime' label='Walltime [s]' type='text' value='600' help='Maximum runtime in seconds including queue time' width='50%'></param>
+      <param name='_pw_train_workdir' label='Run Directory' type='text' value='/home/__USER__' help='Maximum runtime in seconds including queue time' width='50%'></param>
+      <conditional name="train_jobschedulertype_cond">
+          <param name='_pw_train_jobschedulertype' type='select' label='Select Controller, SLURM Partition or PBS Queue' help='Job will submitted using SSH, sbatch or qsub, respectively' width='50%' multiple='false'>
             <option value="SLURM" selected="true">SLURM Partition </option>
             <option value="PBS">PBS Queue</option>
-            <option value="CONTROLLER" selected="true">Controller</option>
+            <option value="CONTROLLER">Controller</option>
         </param>
         <when value="SLURM">
-            <param name='_pw__sch__dd_partition_e_' label='SLURM partition' type='text' help='Partition to submit the interactive job. Leave empty to let SLURM pick the optimal option.' value='gpu-us-east-1a' width='50%_none'>
+            <param name='_pw_train__sch__dd_partition_e_' label='SLURM Partition' type='text' help='Partition to submit the interactive job. Leave empty to let SLURM pick the optimal option.' value='gpu-us-east-1a' width='50%_none'>
             </param>
-            <param name='_pw_scheduler_directives' label='Scheduler directives' type='text' help='e.g. --mem=1000;--gpus-per-node=1 - Use the semicolon character ; to separate parameters. Do not include the SBATCH keyword.' value='--nodes=1;--exclusive;--time=01:00:00' width='100%_none'>
+            <param name='_pw_train_scheduler_directives' label='Scheduler Directives' type='text' help='e.g. --mem=1000;--gpus-per-node=1 - Use the semicolon character ; to separate parameters. Do not include the SBATCH keyword.' value='--nodes=1;--exclusive;--time=01:00:00' width='100%_none'>
             </param>
         </when>
         <when value="PBS">
-            <param name='_pw__sch__d_q___' label='PBS queue' type='text' help='Queue to submit the interactive job. Must select one! Use [qstat -f -Q] to list all queues on the system' value='debug' width='50%_none'>
+            <param name='_pw_train__sch__d_q___' label='PBS Queue' type='text' help='Queue to submit the interactive job. Must select one! Use [qstat -f -Q] to list all queues on the system' value='debug' width='50%_none'>
             </param>
-            <param name='_pw_scheduler_directives' label='Scheduler directives' type='text' help='e.g. -l mem=1000;-l nodes=1:ppn=4 - Use the semicolon character ; to separate parameters. Do not include the PBS keyword.' value='-A___HPCMO49636PRW;-l___select=1:ncpus=44:mpiprocs=44;-l___walltime=00:10:00;-V' width='100%_none'>
+            <param name='_pw_train_scheduler_directives' label='Scheduler Directives' type='text' help='e.g. -l mem=1000;-l nodes=1:ppn=4 - Use the semicolon character ; to separate parameters. Do not include the PBS keyword.' value='-A HPCMO49636PRW;-l select=1:ncpus=44:mpiprocs=44;-l walltime=00:10:00;-V' width='100%_none'>
             </param>
         </when>
       </conditional>
     </section>
-    <section name='train_params' type='section' title='Train' expanded='true'>
+    <section name='train_burst' type='section' title='Train Burst Host' expanded='false'>
+      <param name='_pw_train_burst_resource_name' label='Resource Name' type='text' value='awsv2' help='Name of the PW resource' width='50%'></param>
+      <param name='_pw_train_burst_load_pytorch' label='Load Pytorch Command' type='text' value='source /contrib/miniconda/etc/profile.d/conda.sh; conda activate pytorch-gpu' help='Command to load pytorch on this resource' width='50%'></param>
+      <param name='train_burst_max_runtime' label='Walltime [s]' type='text' value='600' help='Maximum runtime in seconds including queue time' width='50%'></param>
+      <param name='_pw_train_burst_workdir' label='Run Directory' type='text' value='/home/__USER__' help='Maximum runtime in seconds including queue time' width='50%'></param>
+      <conditional name="train_burst_jobschedulertype_cond">
+          <param name='_pw_train_burst_jobschedulertype' type='select' label='Select Controller, SLURM Partition or PBS Queue' help='Job will submitted using SSH, sbatch or qsub, respectively' width='50%' multiple='false'>
+            <option value="SLURM" selected="true">SLURM Partition </option>
+            <option value="PBS">PBS Queue</option>
+            <option value="CONTROLLER">Controller</option>
+        </param>
+        <when value="SLURM">
+            <param name='_pw_train_burst__sch__dd_partition_e_' label='SLURM Partition' type='text' help='Partition to submit the interactive job. Leave empty to let SLURM pick the optimal option.' value='gpu-us-east-1b' width='50%_none'>
+            </param>
+            <param name='_pw_train_burst_scheduler_directives' label='Scheduler Directives' type='text' help='e.g. --mem=1000;--gpus-per-node=1 - Use the semicolon character ; to separate parameters. Do not include the SBATCH keyword.' value='--nodes=1;--exclusive;--time=01:00:00' width='100%_none'>
+            </param>
+        </when>
+        <when value="PBS">
+            <param name='_pw_train_burst__sch__d_q___' label='PBS Queue' type='text' help='Queue to submit the interactive job. Must select one! Use [qstat -f -Q] to list all queues on the system' value='debug' width='50%_none'>
+            </param>
+            <param name='_pw_train_burst_scheduler_directives' label='Scheduler Directives' type='text' help='e.g. -l mem=1000;-l nodes=1:ppn=4 - Use the semicolon character ; to separate parameters. Do not include the PBS keyword.' value='-A HPCMO49636PRW;-l select=1:ncpus=44:mpiprocs=44;-l walltime=00:10:00;-V' width='100%_none'>
+            </param>
+        </when>
+      </conditional>
+    </section>
+    <section name='inference' type='section' title='Inference Host' expanded='true'>
+      <param name='_pw_inference_resource_name' label='Resource Name' type='text' value='koehr' help='Name of the PW resource' width='50%'></param>
+      <param name='_pw_inference_load_pytorch' label='Load Pytorch Command' type='text' value='source /contrib/miniconda/etc/profile.d/conda.sh; conda activate   pytorch-gpu' help='Command to load pytorch on this resource' width='50%'></param>
+      <param name='train_max_runtime' label='Walltime [s]' type='text' value='600' help='Maximum runtime in seconds including queue time' width='50%'></param>
+      <param name='_pw_inference_workdir' label='Run Directory' type='text' value='/home/__USER__' help='Maximum runtime in seconds including queue time' width='50%'></param>
+      <conditional name="inference_jobschedulertype_cond">
+          <param name='_pw_inference_jobschedulertype' type='select' label='Select Controller, SLURM Partition or PBS Queue' help='Job will submitted using SSH, sbatch or qsub, respectively' width='50%' multiple='false'>
+            <option value="SLURM">SLURM Partition </option>
+            <option value="PBS"  selected="true">PBS Queue</option>
+            <option value="CONTROLLER">Controller</option>
+        </param>
+        <when value="SLURM">
+            <param name='_pw_inference__sch__dd_partition_e_' label='SLURM Partition' type='text' help='Partition to submit the interactive job. Leave empty to let SLURM pick the optimal option.' value='gpu-us-east-1a' width='50%_none'>
+            </param>
+            <param name='_pw_inference_scheduler_directives' label='Scheduler Directives' type='text' help='e.g. --mem=1000;--gpus-per-node=1 - Use the semicolon character ; to separate parameters. Do not include the SBATCH keyword.' value='--nodes=1;--exclusive;--time=01:00:00' width='100%_none'>
+            </param>
+        </when>
+        <when value="PBS">
+            <param name='_pw_inference__sch__d_q___' label='PBS Queue' type='text' help='Queue to submit the interactive job. Must select one! Use [qstat -f -Q] to list all queues on the system' value='debug' width='50%_none'>
+            </param>
+            <param name='_pw_inference_scheduler_directives' label='Scheduler Directives' type='text' help='e.g. -l mem=1000;-l nodes=1:ppn=4 - Use the semicolon character ; to separate parameters. Do not include the PBS keyword.' value='-A HPCMO49636PRW;-l select=1:ncpus=44:mpiprocs=44;-l walltime=00:10:00;-V' width='100%_none'>
+            </param>
+        </when>
+      </conditional>
+    </section>
+    <section name='inference_burst' type='section' title='Inference Burst Host' expanded='false'>
+      <param name='_pw_inference_burst_resource_name' label='Resource Name' type='text' value='awsv2' help='Name of the PW resource' width='50%'></param>
+      <param name='_pw_inference_burst_load_pytorch' label='Load Pytorch Command' type='text' value='source /contrib/miniconda/etc/profile.d/conda.sh; conda activate pytorch-gpu' help='Command to load pytorch on this resource' width='50%'></param>
+      <param name='max_runtime' label='Walltime [s]' type='text' value='600' help='Maximum runtime in seconds including queue time' width='50%'></param>
+      <param name='_pw_inference_burst_workdir' label='Run Directory' type='text' value='/home/__USER__' help='Maximum runtime in seconds including queue time' width='50%'></param>
+      <conditional name="inference_burst_jobschedulertype_cond">
+          <param name='_pw_inference_burst_jobschedulertype' type='select' label='Select Controller, SLURM Partition or PBS Queue' help='Job will submitted using SSH, sbatch or qsub, respectively' width='50%' multiple='false'>
+            <option value="SLURM" selected="true">SLURM Partition </option>
+            <option value="PBS">PBS Queue</option>
+            <option value="CONTROLLER">Controller</option>
+        </param>
+        <when value="SLURM">
+            <param name='_pw_inference_burst__sch__dd_partition_e_' label='SLURM Partition' type='text' help='Partition to submit the interactive job. Leave empty to let SLURM pick the optimal option.' value='gpu-us-east-1b' width='50%_none'>
+            </param>
+            <param name='_pw_inference_burst_scheduler_directives' label='Scheduler Directives' type='text' help='e.g. --mem=1000;--gpus-per-node=1 - Use the semicolon character ; to separate parameters. Do not include the SBATCH keyword.' value='--nodes=1;--exclusive;--time=01:00:00' width='100%_none'>
+            </param>
+        </when>
+        <when value="PBS">
+            <param name='_pw_inference_burst__sch__d_q___' label='PBS Queue' type='text' help='Queue to submit the interactive job. Must select one! Use [qstat -f -Q] to list all queues on the system' value='debug' width='50%_none'>
+            </param>
+            <param name='_pw_inference_burst_scheduler_directives' label='Scheduler Directives' type='text' help='e.g. -l mem=1000;-l nodes=1:ppn=4 - Use the semicolon character ; to separate parameters. Do not include the PBS keyword.' value='-A HPCMO49636PRW;-l select=1:ncpus=44:mpiprocs=44;-l walltime=00:10:00;-V' width='100%_none'>
+            </param>
+        </when>
+      </conditional>
+    </section>
+    <section name='train_params' type='section' title='Train Parameters' expanded='true'>
       <param 
         name='latent_size' 
         label='Latent Size' 
@@ -54,7 +129,7 @@
         width='50%'>
       </param>
     </section>
-    <section name='inference_params' type='section' title='Inference' expanded='true'>
+    <section name='inference_params' type='section' title='Inference Parameters' expanded='true'>
       <param 
         name='num_digits' 
         label='Number of Digits' 

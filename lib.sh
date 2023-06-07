@@ -67,7 +67,7 @@ getBatchScriptHeader() {
     elif [[ ${jobschedulertype} == "PBS" ]]; then
         directive_prefix="#PBS"
         scheduler_directives="${scheduler_directives};-N___${elabel}_${job_number}"
-    elif [[ ${jobschedulertype} == "LOCAL" ]]; then
+    elif [[ ${jobschedulertype} == "CONTROLLER" ]]; then
         return
     else
         echo "ERROR: jobschedulertype <${jobschedulertype}> must be SLURM, PBS or LOCAL" >&2
