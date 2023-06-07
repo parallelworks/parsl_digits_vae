@@ -55,7 +55,7 @@
     </section>
     <section name='inference' type='section' title='Inference Host' expanded='true'>
       <param name='_pw_inference_resource_name' label='Resource Name' type='text' value='koehr' help='Name of the PW resource' width='50%'></param>
-      <param name='_pw_inference_load_pytorch' label='Load Pytorch Command' type='text' value='source /p/home/avidalto/miniconda3/etc/profile.d/conda.sh; conda activate pytorch-cpu' help='Command to load pytorch on this resource' width='50%'></param>
+      <param name='_pw_inference_load_pytorch' label='Load Pytorch Command' type='text' value='source /p/home/__USER__/miniconda3/etc/profile.d/conda.sh; conda activate pytorch-cpu' help='Command to load pytorch on this resource' width='50%'></param>
       <param name='_pw_inference_max_runtime' label='Walltime [s]' type='text' value='600' help='Maximum runtime in seconds including queue time' width='50%'></param>
       <param name='_pw_inference_workdir' label='Run Directory' type='text' value='/p/home/__USER__' help='Maximum runtime in seconds including queue time' width='50%'></param>
       <conditional name="inference_jobschedulertype_cond">
