@@ -54,4 +54,12 @@ git clone https://github.com/parallelworks/parsl_utils.git parsl_utils
 source /pw/kerberos/source.env
 
 # Cant run a scripts inside parsl_utils directly
-bash parsl_utils/main.sh $@
+bash parsl_utils/main.sh \
+    --train_max_runtime ${train_max_runtime} \
+    --train_burst_max_runtime ${train_burst_max_runtime} \
+    --inference_max_runtime ${inference_max_runtime} \ 
+    --inference_burst_max_runtime ${inference_burst_max_runtime} \
+    --latent_size ${latent_size} \ 
+    --num_epochs ${num_epochs} \ 
+    --learning_rate ${learning_rate} \
+    --num_digits ${num_digits}
