@@ -12,8 +12,13 @@ def run_script(jobschedulertype: str, walltime: int = 300, retry_parameters: lis
         cmd = 'qsub  -W block=true'
     else:
         cmd = 'bash'
-        
+
+    # Parsl BUG: retry handler does not transfer files
+    script_pw_path = inputs[0].url.replace('file://usercontainer','usercontainer:').split('#')[0]
     return f'''
+    if ! [ -f "{inputs[0].local_path}" ]; then
+        scp {script_pw_path} {inputs[0].local_path}
+    fi
     {cmd} {inputs[0].local_path}
     '''
 
