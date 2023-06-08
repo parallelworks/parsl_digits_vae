@@ -3,7 +3,7 @@ import pandas as pd
 
 
 
-def run_script(jobschedulertype: str, walltime: int = 300, retry_parameters: list = None, 
+def run_script(jobschedulertype: str, dummy: int, walltime: int = 300, retry_parameters: list = None, 
           inputs: list = None, outputs: list = None,
           stdout: str ='run_script.out', stderr: str = 'run_script.err'):
     
