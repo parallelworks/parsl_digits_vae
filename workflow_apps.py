@@ -18,10 +18,6 @@ def run_script(jobschedulertype: str, walltime: int = 300, retry_parameters: lis
     return f'''
     {cmd} {inputs[0].local_path}
     '''
-    #.format(
-    #    cmd = cmd,
-    #    script = inputs[0].local_path,
-    #)
 
 
 def prepare_design_explorer():
