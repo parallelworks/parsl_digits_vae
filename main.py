@@ -53,7 +53,7 @@ if __name__ == '__main__':
         retry_parameters = [
             {
                 'executor': 'train_burst',
-                'args': args['train_burst_jobschedulertype'],
+                'args': [args['train_burst_jobschedulertype']],
                 'kwargs': {
                     'walltime': int(args['train_burst_max_runtime']),
                     'inputs':  [ train_burst_script, pytorch_dir, pytorch_inputs_json ],
@@ -73,7 +73,7 @@ if __name__ == '__main__':
         retry_parameters = [
             {
                 'executor': 'inference_burst',
-                'args':         args['inference_burst_jobschedulertype'],
+                'args': [args['inference_burst_jobschedulertype']],
                 'kwargs': {
                     'walltime': int(args['inference_burst_max_runtime']),
                     'inputs':  [ inference_burst_script, pytorch_dir, pytorch_inputs_json, model_file],
