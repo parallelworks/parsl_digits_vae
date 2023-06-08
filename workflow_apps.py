@@ -7,7 +7,7 @@ def run_script(jobschedulertype: str, walltime: int = 300, retry_parameters: lis
           stdout: str ='run_script.out', stderr: str = 'run_script.err'):
     
     if jobschedulertype == 'SLURM':
-        cmd = 'sbatch -W'
+        cmd = 'sbatch -W --kill-on-invalid-dep=yes '
     elif jobschedulertype == 'PBS':
         cmd = 'qsub  -W block=true'
     else:
