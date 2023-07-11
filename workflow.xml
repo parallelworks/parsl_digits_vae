@@ -160,15 +160,15 @@
             </param>
           </when>
           <when value="PBS">
-            <param name='_parsl_provider_queue' label='SLURM Partition' type='text' help='queue parameter for the Parsl PBSProProvider' value='debug' >
+            <param name='_parsl_provider_queue' label='PBS Queue' type='text' help='queue parameter for the Parsl PBSProProvider' value='debug' >
             </param>
             <param name='_parsl_provider_account' label='Account' type='text' help='account parameter for the Parsl PBSProProvider' value='HPCMO49636PRW'>
+            </param>
+            <param name='_parsl_provider_walltime' label='Walltime' type='text' help='walltime parameter for the Parsl PBSProProvider' value='00:10:00'>
             </param>
             <param name='_parsl_provider_scheduler_options' label='Scheduler Options' type='text' help='scheduler_options parameter for the Parsl PBSProProvider' value='#PBS -A HPCMO49636PRW\n#PBS -q debug\ncd __RUN_DIR__'>
             </param>
             <param name='_parsl_provider_nodes_per_block' label='Nodes per Block' type='integer' min="1" max="10" help='nodes_per_block parameter for the Parsl PBSProProvider' value='1'>
-            </param>
-            <param name='_parsl_provider_walltime' label='Walltime' type='text' help='walltime parameter for the Parsl PBSProProvider' value='00:10:00'>
             </param>
             <param name='_parsl_provider_max_blocks' label='Max Blocks' type='integer' min="1" max="10" help='max_blocks parameter for the Parsl PBSProProvider' value='1' >
             </param>
