@@ -6,7 +6,7 @@ print(parsl.__version__, flush = True)
 from parsl.app.app import bash_app
 
 import parsl_utils
-from parsl_utils.config import config, read_args, exec_conf
+from parsl_utils.config import config, form_inputs, executor_dict
 from parsl_utils.data_provider import PWFile
 
 from workflow_apps import train, generate_data, prepare_design_explorer
@@ -15,14 +15,13 @@ from workflow_apps import train, generate_data, prepare_design_explorer
 if __name__ == '__main__':
     print('Loading Parsl Config', flush = True)
     parsl.load(config)
-    args = read_args()
 
     pytorch_inputs = {
         "model_path": './vae_model.pth',
-        "latent_size": int(args['latent_size']),
-        "num_epochs": int(args['num_epochs']),
-        "learning_rate": float(args['learning_rate']),
-        "num_digits": int(args['num_digits']),
+        "latent_size": int(form_inputs['pytorch']['latent_size']),
+        "num_epochs": int(form_inputs['pytorch']['num_epochs']),
+        "learning_rate": float(form_inputs['pytorch']['learning_rate']),
+        "num_digits": int(form_inputs['pytorch']['num_digits']),
         "gen_data_dir": './generated_data/'
     }
     
@@ -57,12 +56,12 @@ if __name__ == '__main__':
         try:
             print(f'Submitting to {exec_label} executor')
 
-            decorated_train = parsl_utils.parsl_wrappers.timeout_app(seconds = int(exec_conf[exec_label]['MAX_RUNTIME']))(
+            decorated_train = parsl_utils.parsl_wrappers.timeout_app(seconds = int(executor_dict[exec_label]['max_runtime']))(
                 bash_app(executors = [exec_label])(train)
             )
             
             train_fut = decorated_train(
-                exec_conf[exec_label]['LOAD_PYTORCH'],
+                executor_dict[exec_label]['load_pytorch'],
                 inputs = [ pytorch_dir, pytorch_inputs_json ],
                 outputs = [ model_file ]
             )
@@ -83,12 +82,12 @@ if __name__ == '__main__':
         try:
             print(f'Submitting to {exec_label} executor')
 
-            decorated_generate_data = parsl_utils.parsl_wrappers.timeout_app(seconds = int(exec_conf[exec_label]['MAX_RUNTIME']))(
+            decorated_generate_data = parsl_utils.parsl_wrappers.timeout_app(seconds = int(executor_dict[exec_label]['max_runtime']))(
                 bash_app(executors = [exec_label])(generate_data)
             )
             
             generate_data_fut = decorated_generate_data(
-                exec_conf[exec_label]['LOAD_PYTORCH'],
+                executor_dict[exec_label]['load_pytorch'],
                 inputs = [ pytorch_dir, pytorch_inputs_json, model_file],
                 outputs = [ generated_data ]
             )
