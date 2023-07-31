@@ -1,0 +1,38 @@
+{
+    "multi_user": false,
+    "provider_version": "",
+    "health_check": "# (optional) User-specific master node Health Check script - \n# you can use this run custom node Health Check logic  upon cluster start\ngit clone https://github.com/parallelworks/cloud-cluster-healthchecks.git /tmp/healthcheck\n/tmp/healthcheck/healthcheck.sh",
+    "cluster_config": {
+      "architecture": "amd64",
+      "availability_zone": "us-east-1a",
+      "controller_efa": false,
+      "controller_image": "latest",
+      "export_fs_type": "xfs",
+      "image_disk_count": "0",
+      "image_disk_name": "",
+      "image_disk_size_gb": 250,
+      "management_shape": "g5.2xlarge",
+      "partition_config": [
+        {
+          "architecture": "",
+          "availability_zone": "us-east-1a",
+          "default": "YES",
+          "efa": false,
+          "elastic_image": "latest",
+          "enable_spot": false,
+          "instance_type": "c5.2xlarge",
+          "max_node_num": 10,
+          "name": "compute",
+          "capacity_reservation": false,
+          "capacity_reservation_id": "",
+          "placement_group": ""
+        }
+      ],
+      "region": "us-east-1",
+      "slurm_resume_timeout": "",
+      "slurm_return_to_service": "",
+      "slurm_suspend_time": "",
+      "slurm_suspend_timeout": ""
+    },
+    "storages": []
+  }
