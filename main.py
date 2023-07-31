@@ -51,7 +51,7 @@ if __name__ == '__main__':
     # Run workflow:
     print('\n\nTraining model', flush = True)
     train_fut = train(
-        executor_dict[exec_label]['load_pytorch'],
+        executor_dict['train']['load_pytorch'],
         inputs = [ pytorch_dir, pytorch_inputs_json ],
         outputs = [ model_file ]
     )
@@ -59,7 +59,7 @@ if __name__ == '__main__':
     
     print('\n\nGenerating data', flush = True)
     generate_data_fut = generate_data(
-        executor_dict[exec_label]['load_pytorch'],
+        executor_dict['inference']['load_pytorch'],
         inputs = [ pytorch_dir, pytorch_inputs_json, model_file, train_fut],
         outputs = [ generated_data ]
     )
