@@ -48,7 +48,7 @@
         value='source /contrib/miniconda/etc/profile.d/conda.sh; conda activate pytorch-gpu'>
       </param>
       <param name='worker_conda_yaml' label='Worker Conda YAML Definition File' type='hidden' value='./requirements/worker_conda.yaml'></param>
-      <param name='worker_conda_dir' label='Worker Conda Directory' type='hidden' value='/contrib/__USER__/pw/miniconda3'></param>
+      <param name='worker_conda_dir' label='Worker Conda Directory' type='hidden' value='/contrib/__PW_USER__/pw/miniconda3'></param>
       <param name='worker_conda_env' label='Worker Conda Environment Name' type='hidden' value='parsl-1.2'></param>
       <param name='cores_per_worker' label='Cores per Worker' type='integer' min="1" max="100" help='cores_per_worker parameter for the Parsl HighThroughputExecutor' value='1' ></param>
       <conditional name="jobschedulertype_cond">
@@ -58,7 +58,7 @@
             <option value="PBS">PBS Queue</option>
           </param>
           <when value="SLURM">
-            <param name='_parsl_provider_partition' label='SLURM Partition' type='text' help='partition parameter for the Parsl SlurmProvider' value='gpu-us-east-1a'>
+            <param name='_parsl_provider_partition' label='SLURM Partition' type='text' help='partition parameter for the Parsl SlurmProvider' value='gpu'>
             </param>
             <param name='_parsl_provider_nodes_per_block' label='Nodes per Block' type='integer' min="1" max="10" help='nodes_per_block parameter for the Parsl SlurmProvider' value='1'>
             </param>
@@ -85,7 +85,7 @@
         value='source /contrib/miniconda/etc/profile.d/conda.sh; conda activate pytorch-gpu'>
       </param>
       <param name='worker_conda_yaml' label='Worker Conda YAML Definition File' type='hidden' value='./requirements/worker_conda.yaml'></param>
-      <param name='worker_conda_dir' label='Worker Conda Directory' type='hidden' value='/contrib/__USER__/pw/miniconda3' ></param>
+      <param name='worker_conda_dir' label='Worker Conda Directory' type='hidden' value='/contrib/__PW_USER__/pw/miniconda3' ></param>
       <param name='worker_conda_env' label='Worker Conda Environment Name' type='hidden' value='parsl-1.2' ></param>
       <param name='cores_per_worker' label='Cores per Worker' type='integer' min="1" max="100" help='cores_per_worker parameter for the Parsl HighThroughputExecutor' value='1' ></param>
       <conditional name="jobschedulertype_cond">
@@ -95,7 +95,7 @@
             <option value="PBS">PBS Queue</option>
           </param>
           <when value="SLURM">
-            <param name='_parsl_provider_partition' label='SLURM Partition' type='text' help='partition parameter for the Parsl SlurmProvider' value='gpu-us-east-1b' >
+            <param name='_parsl_provider_partition' label='SLURM Partition' type='text' help='partition parameter for the Parsl SlurmProvider' value='gpu' >
             </param>
             <param name='_parsl_provider_nodes_per_block' label='Nodes per Block' type='integer' min="1" max="10" help='nodes_per_block parameter for the Parsl SlurmProvider' value='1'>
             </param>
