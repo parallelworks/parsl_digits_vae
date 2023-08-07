@@ -58,7 +58,7 @@
             <option value="PBS">PBS Queue</option>
           </param>
           <when value="SLURM">
-            <param name='_parsl_provider_partition' label='SLURM Partition' type='text' help='partition parameter for the Parsl SlurmProvider' value='gpu'>
+            <param name='_parsl_provider_partition' label='SLURM Partition' type='text' help='partition parameter for the Parsl SlurmProvider' value=''>
             </param>
             <param name='_parsl_provider_nodes_per_block' label='Nodes per Block' type='integer' min="1" max="10" help='nodes_per_block parameter for the Parsl SlurmProvider' value='1'>
             </param>
@@ -95,7 +95,7 @@
             <option value="PBS">PBS Queue</option>
           </param>
           <when value="SLURM">
-            <param name='_parsl_provider_partition' label='SLURM Partition' type='text' help='partition parameter for the Parsl SlurmProvider' value='gpu' >
+            <param name='_parsl_provider_partition' label='SLURM Partition' type='text' help='partition parameter for the Parsl SlurmProvider' value='' >
             </param>
             <param name='_parsl_provider_nodes_per_block' label='Nodes per Block' type='integer' min="1" max="10" help='nodes_per_block parameter for the Parsl SlurmProvider' value='1'>
             </param>
