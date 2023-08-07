@@ -30,12 +30,12 @@
       </param>
       <param 
         name='num_digits' 
-        label='Number of Digits' 
+        label='Number of Digits to Generate' 
         type='integer' 
         min='2' 
         max='1000' 
-        help='Number of digits to generate' 
-        value='10'>
+        help='Number of digits to generate using the trained model' 
+        value='20'>
       </param>
     </section>
     <section name='pwrl_train' type='section' title='Train Host' expanded='true'>
