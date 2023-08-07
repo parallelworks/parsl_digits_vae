@@ -3,7 +3,7 @@ import pandas as pd
 from parsl.app.app import bash_app
 
 @bash_app(executors=['train'])
-def train(load_pytorch: str, walltime: int = 300, retry_parameters: list = None, 
+def train(load_pytorch: str, retry_parameters: list = None, 
           inputs: list = None, outputs: list = None,
           stdout: str ='train.out', stderr: str = 'train.err'):
     
@@ -20,7 +20,7 @@ def train(load_pytorch: str, walltime: int = 300, retry_parameters: list = None,
     )
 
 @bash_app(executors=['inference'])
-def generate_data(load_pytorch: str, walltime: int = 300, retry_parameters: list = None, 
+def generate_data(load_pytorch: str, retry_parameters: list = None, 
                   inputs: list = None, outputs: list = None,
                   stdout: str ='generate_data.out', stderr: str = 'generate_data.err'):
     
