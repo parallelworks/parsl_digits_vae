@@ -88,7 +88,7 @@
         name='load_pytorch_' 
         label='Load PyTorch Command' 
         type='hidden' 
-        value='source /contrib/miniconda/etc/profile.d/conda.sh; conda activate pytorch'
+        value='source __WORKDIR__/pw/.miniconda3c/etc/profile.d/conda.sh; conda activate pytorch'
         depends_on='pwrl_train.install_pytorch'
         show_if="true"
       ></param>
@@ -110,7 +110,7 @@
         name='worker_conda_dir' 
         label='Worker Conda Directory' 
         type='hidden' 
-        value='__WORKDIR__/pw/miniconda'
+        value='__WORKDIR__/pw/.miniconda3c'
       ></param>
       <param 
         name='worker_conda_env' 
@@ -212,7 +212,7 @@
         name='load_pytorch_' 
         label='Load PyTorch Command' 
         type='hidden' 
-        value='source /contrib/miniconda/etc/profile.d/conda.sh; conda activate pytorch'
+        value='source __WORKDIR__/pw/.miniconda3c/etc/profile.d/conda.sh; conda activate pytorch'
         depends_on='pwrl_inference.install_pytorch'
         show_if="true"
       ></param>
@@ -234,7 +234,7 @@
         name='worker_conda_dir' 
         label='Worker Conda Directory' 
         type='hidden' 
-        value='__WORKDIR__/pw/miniconda' 
+        value='__WORKDIR__/pw/.miniconda3c' 
       ></param>
       <param 
         name='worker_conda_env' 
