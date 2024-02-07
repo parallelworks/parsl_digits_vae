@@ -10,6 +10,13 @@ from parsl_utils.data_provider import PWFile
 
 from workflow_apps import train, generate_data, prepare_design_explorer
 
+# The code below is here because of a limitation of the input form
+# https://github.com/parallelworks/internal-issues/issues/1839
+if 'load_pytorch' not in executor_dict['train']:
+    executor_dict['train']['load_pytorch'] = executor_dict['train']['load_pytorch_']
+
+if 'load_pytorch' not in executor_dict['inference']:
+    executor_dict['inference']['load_pytorch'] = executor_dict['inference']['load_pytorch_']
 
 if __name__ == '__main__':
     print('Loading Parsl Config', flush = True)

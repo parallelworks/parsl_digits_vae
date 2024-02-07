@@ -1,5 +1,5 @@
 <tool id='alvaro_singlecluster_parsl_demo' name='alvaro_singlecluster_parsl_demo'>
-  <command interpreter='bash'>parsl_wrapper.sh</command>
+  <command interpreter='bash'>main.sh</command>
   <inputs>
     <param name='pw_conda_yaml' label='PW Conda YAML Definition File' type='hidden' value='./requirements/pw_conda.yaml'></param>
     <param name='pw_conda_dir' label='PW Conda Directory' type='hidden' value='/pw/.miniconda3c'></param>
