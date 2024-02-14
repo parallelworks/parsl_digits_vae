@@ -172,7 +172,7 @@
         min="1" 
         max="10" 
         help='max_blocks parameter for the Parsl SlurmProvider' 
-        value='1'
+        value='10'
         depends_on='pwrl_train.jobschedulertype'
         show_if='SLURM'
       ></param>
@@ -296,7 +296,7 @@
         min="1" 
         max="10" 
         help='max_blocks parameter for the Parsl SlurmProvider' 
-        value='1'
+        value='10'
         depends_on='pwrl_inference.jobschedulertype'
         show_if='SLURM' 
       ></param>
